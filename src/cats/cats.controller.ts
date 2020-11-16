@@ -1,7 +1,7 @@
 /*
  * @Author: lifan
  * @Date: 2020-11-15 21:56:21
- * @LastEditTime: 2020-11-15 23:29:03
+ * @LastEditTime: 2020-11-16 22:04:30
  * @LastEditors: lifan
  * @FilePath: /src/cats/cats.controller.ts
  */
@@ -14,13 +14,16 @@ import {
   Redirect,
   Param,
   Query,
+  Body,
 } from '@nestjs/common';
+import { Observable, of } from 'rxjs';
+import { CreateCatDto } from './create-cat.dto';
 
 @Controller({ path: 'cats' })
 export class CatsController {
   @Post()
-  create(): string {
-    return 'This action adds a new cat';
+  create(@Body() createCatDto: CreateCatDto) {
+    return createCatDto;
   }
 
   @Get()
@@ -45,5 +48,15 @@ export class CatsController {
   findOne(@Param() params, @Query('id') id): string {
     console.log(id);
     return `This action returns a #${params.id} cat ${id}`;
+  }
+
+  @Get('findall3')
+  async findAll3(): Promise<string[]> {
+    return ['test'];
+  }
+
+  @Get('findall4')
+  findAll4(): Observable<string[]> {
+    return of(['demo']);
   }
 }
